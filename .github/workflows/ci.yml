@@ -40,12 +40,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install fastapi uvicorn pydantic httpx pytest
+          pip install colorlog
+          pip install fastapi uvicorn pydantic httpx==0.24.1 pytest
           pip install torch --index-url https://download.pytorch.org/whl/cpu
           pip install torch_geometric
           pip install xgboost scikit-learn joblib pandas numpy
           pip install python-dotenv sqlalchemy pymysql
-          pip install colorlog requests folium networkx
+          pip install requests folium networkx shap
 
       - name: Create dummy model artifacts for testing
         run: |
@@ -93,9 +94,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: |
-            .pytest_cache/
-          retention-days: 7
+          path: .pytest_cache/
+          if-no-files-found: ignore
 
   # ============================================
   # JOB 2: BUILD DOCKER IMAGE
