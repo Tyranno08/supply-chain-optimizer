@@ -1,0 +1,11 @@
+route_id,source_name,dest_name,transport_mode,total_events,avg_risk_score,weighted_risk_score,max_risk_score,negative_events,latest_event_date,risk_category
+RT_DXB_RTM,Jebel Ali Port Dubai,Port of Rotterdam,Sea,29,0.601448275862069,1.0,1.000,10,2026-03-04 22:58:50,CRITICAL
+RT_HKG_LAX,Port of Hong Kong,Port of Los Angeles,Sea,31,0.5476774193548387,1.0,1.000,8,2026-03-04 22:58:50,CRITICAL
+RT_HKG_RTM,Port of Hong Kong,Port of Rotterdam,Air,32,0.597375,1.0,1.000,11,2026-03-04 22:58:50,CRITICAL
+RT_LAX_CHI,Port of Los Angeles,Chicago Distribution Center,Land,29,0.4450689655172414,0.8901,0.805,3,2026-03-04 22:58:51,CRITICAL
+RT_RTM_ANT,Port of Rotterdam,Port of Antwerp,Land,28,0.4886785714285714,0.9774,1.000,6,2026-03-04 22:58:50,CRITICAL
+RT_SHA_DXB,Shanghai Port,Jebel Ali Port Dubai,Sea,29,0.5954827586206896,1.0,1.000,9,2026-03-04 22:58:50,CRITICAL
+RT_SHA_LAX,Shanghai Port,Port of Los Angeles,Sea,31,0.4928709677419355,0.9857,1.000,8,2026-03-04 22:58:49,CRITICAL
+RT_SHA_SIN,Shanghai Port,Port of Singapore,Sea,31,0.5764516129032259,1.0,1.000,8,2026-03-04 22:58:49,CRITICAL
+RT_SIN_DXB,Port of Singapore,Jebel Ali Port Dubai,Sea,28,0.6391071428571429,1.0,1.000,7,2026-03-04 22:58:50,CRITICAL
+RT_SIN_RTM,Port of Singapore,Port of Rotterdam,Sea,31,0.5820322580645161,1.0,1.000,9,2026-03-04 22:58:49,CRITICAL

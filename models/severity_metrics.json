@@ -1,0 +1,10 @@
+{
+    "weighted_f1": 0.4869,
+    "ordinal_accuracy": 0.8412,
+    "classes": {
+        "0": "On Time",
+        "1": "Minor Delay (1-24h)",
+        "2": "Major Delay (24-48h)",
+        "3": "Severe Delay (48h+)"
+    }
+}

@@ -1,0 +1,85 @@
+# ============================================
+# SUPPLY CHAIN OPTIMIZER — .gitignore
+# ============================================
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+
+# ---- Virtual Environment ----
+venv/
+env/
+ENV/
+.venv/
+
+# ---- Environment Variables (NEVER commit these) ----
+.env
+.env.*
+!.env.example
+
+# ---- Jupyter Notebooks ----
+.ipynb_checkpoints/
+*.ipynb
+
+# ---- Data files (too large for GitHub) ----
+data/raw/*.csv
+data/raw/*.json
+data/processed/feature_matrix.csv
+data/processed/drift_report.json
+
+# ---- Model artifacts (too large for GitHub) ----
+models/*.joblib
+models/*.pth
+models/*.pkl
+models/baseline_feature_stats.json
+models/promotion_report.json
+
+# ---- BUT keep these small JSON config files ----
+!models/clf_threshold.json
+!models/reg_transform.json
+!models/severity_metrics.json
+
+# ---- MLflow runs (large experiment data) ----
+mlruns/
+
+# ---- Logs ----
+logs/
+*.log
+
+# ---- OS files ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- IDE ----
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ---- Docker ----
+.dockerignore
+
+# ---- Pytest cache ----
+.pytest_cache/
+htmlcov/
+.coverage
+
+# ---- Streamlit ----
+.streamlit/
