@@ -1,0 +1,226 @@
+=============================================================
+  SUPPLY CHAIN RESILIENCE OPTIMIZER — COMPLETE RUN GUIDE
+  Full demo from environment setup to live dashboard
+=============================================================
+
+
+-------------------------------------------------------------
+STEP 1: CLONE THE REPOSITORY
+-------------------------------------------------------------
+
+git clone https://github.com/Tyranno08/supply-chain-optimizer.git
+cd supply-chain-optimizer
+
+
+-------------------------------------------------------------
+STEP 2: CREATE & ACTIVATE VIRTUAL ENVIRONMENT
+-------------------------------------------------------------
+
+python -m venv venv
+
+# Windows:
+venv\Scripts\activate
+
+# Mac/Linux:
+source venv/bin/activate
+
+
+-------------------------------------------------------------
+STEP 3: INSTALL ALL DEPENDENCIES
+-------------------------------------------------------------
+
+pip install -r requirements.txt
+
+
+-------------------------------------------------------------
+STEP 4: SET UP ENVIRONMENT VARIABLES
+-------------------------------------------------------------
+
+# Copy the example env file and fill in your credentials
+copy .env.example .env
+
+# The .env file needs:
+# DB_USER=root
+# DB_PASS=your_mysql_password
+# DB_HOST=localhost
+# DB_NAME=supply_chain_db
+# WEATHER_API_KEY=your_openweathermap_key
+# NEWS_API_KEY=your_newsapi_key
+
+
+-------------------------------------------------------------
+STEP 5: RUN DATA INGESTION PIPELINE
+# Fetches real-time weather + news data from APIs
+# Populates MySQL database
+-------------------------------------------------------------
+
+python src/ingestion/data_ingestion.py
+
+
+-------------------------------------------------------------
+STEP 6: RUN FEATURE ENGINEERING PIPELINE
+# Builds graph network, temporal features, NLP risk scores
+# Outputs: data/processed/feature_matrix.csv
+-------------------------------------------------------------
+
+python src/features/run_feature_pipeline.py
+
+
+-------------------------------------------------------------
+STEP 7: TRAIN ALL MODELS (with MLflow tracking)
+# Trains: XGBoost Classifier, Regressor, Severity Classifier
+#         Graph Neural Network, Hybrid Ensemble
+# Logs all runs to MLflow experiment registry
+-------------------------------------------------------------
+
+python src/models/run_model_pipeline.py
+
+
+-------------------------------------------------------------
+STEP 8: RUN EVALUATION PIPELINE
+# Generates SHAP plots, confusion matrix, ROC curve
+# Calculates $25.1M ROI projection
+# Outputs: data/processed/evaluation_report.json
+#          data/processed/visualizations/ (14 plots)
+-------------------------------------------------------------
+
+python src/models/run_evaluation.py
+
+
+-------------------------------------------------------------
+STEP 9: BUILD DRIFT DETECTION BASELINE (run once)
+# Saves reference feature distribution for future comparison
+-------------------------------------------------------------
+
+python src/monitoring/build_baseline.py
+
+
+-------------------------------------------------------------
+STEP 10: RUN DRIFT DETECTION
+# Compares current data vs baseline using KS Test + PSI
+# Outputs: data/processed/drift_report.json
+-------------------------------------------------------------
+
+python src/monitoring/drift_detector.py
+
+
+-------------------------------------------------------------
+STEP 11: RUN MODEL PROMOTION
+# Compares candidate vs production model in MLflow
+# Auto-promotes best model to Production stage
+-------------------------------------------------------------
+
+python src/monitoring/model_promoter.py
+
+
+-------------------------------------------------------------
+STEP 12: RUN UNIT TESTS (15 tests)
+# Tests all FastAPI endpoints
+-------------------------------------------------------------
+
+pytest tests/test_api.py -v
+
+
+-------------------------------------------------------------
+STEP 13: START FASTAPI SERVER
+# Open Terminal 1 — keep this running
+# API available at: http://localhost:8000
+# Swagger UI at:    http://localhost:8000/docs
+-------------------------------------------------------------
+
+python src/api/main.py
+
+
+-------------------------------------------------------------
+STEP 14: START STREAMLIT DASHBOARD
+# Open Terminal 2 — keep this running alongside FastAPI
+# Dashboard at: http://localhost:8501
+-------------------------------------------------------------
+
+streamlit run src/dashboard/app.py
+
+
+-------------------------------------------------------------
+STEP 15: VIEW MLFLOW EXPERIMENT TRACKING
+# Open Terminal 3 (optional)
+# MLflow UI at: http://localhost:5000
+-------------------------------------------------------------
+
+mlflow ui --port 5000
+
+
+=============================================================
+  DOCKER DEPLOYMENT (Alternative to Steps 13-14)
+=============================================================
+
+# Build and run full stack with Docker
+docker build -t supply-chain-optimizer:latest .
+docker run -p 8000:8000 --env-file .env supply-chain-optimizer:latest
+
+# Or run full stack (API + MySQL) with Docker Compose
+docker-compose up --build
+
+
+=============================================================
+  QUICK REFERENCE — URLS
+=============================================================
+
+Streamlit Dashboard  →  http://localhost:8501
+FastAPI Swagger UI   →  http://localhost:8000/docs
+FastAPI Health Check →  http://localhost:8000/health
+MLflow UI            →  http://localhost:5000
+
+
+=============================================================
+  QUICK REFERENCE — KEY RESULTS
+=============================================================
+
+Model                   Metric              Score
+--------------------------------------------------------
+XGBoost Classifier      AUC-ROC             0.867
+XGBoost Classifier      F1 Score            0.929
+XGBoost Classifier      Recall              89.4%
+Severity Classifier     Ordinal Accuracy    84.1%
+Graph Neural Network    F1 Score            0.857
+Graph Neural Network    MAE                 5.56 hours
+Business ROI            Annual Savings      $25.1M
+Test Suite              Tests Passing       15/15
+
+
+=============================================================
+  QUICK REFERENCE — PROJECT STRUCTURE
+=============================================================
+
+supply_chain_optimizer/
+├── src/
+│   ├── ingestion/        → Real-time API data pipeline
+│   ├── features/         → Feature engineering + graph
+│   ├── models/           → XGBoost + GNN + ensemble
+│   ├── api/              → FastAPI REST endpoints
+│   ├── dashboard/        → Streamlit 5-page dashboard
+│   └── monitoring/       → Drift detection + promotion
+├── dags/                 → Apache Airflow daily DAG
+├── models/               → Saved model artifacts
+├── data/processed/       → Feature matrix + 14 plots
+├── tests/                → 15 pytest test cases
+├── .github/workflows/    → GitHub Actions CI/CD
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
+
+
+=============================================================
+  TECH STACK SUMMARY
+=============================================================
+
+ML / DL          →  XGBoost, PyTorch, PyTorch Geometric
+NLP              →  Hugging Face DistilBERT
+MLOps            →  MLflow, Apache Airflow, GitHub Actions
+Database         →  MySQL, SQLAlchemy
+API              →  FastAPI, Uvicorn
+Frontend         →  Streamlit, Plotly, Folium
+DevOps           →  Docker, Docker Compose
+Explainability   →  SHAP TreeExplainer
+Monitoring       →  KS Test + PSI Drift Detection
+
+=============================================================
