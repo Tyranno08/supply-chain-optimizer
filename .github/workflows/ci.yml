@@ -45,6 +45,7 @@ jobs:
           pip install torch_geometric
           pip install xgboost scikit-learn joblib pandas numpy
           pip install python-dotenv sqlalchemy pymysql
+          pip install colorlog requests folium networkx
 
       - name: Create dummy model artifacts for testing
         run: |
